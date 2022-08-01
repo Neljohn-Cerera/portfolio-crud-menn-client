@@ -3,13 +3,11 @@ import Navbar from "../components/navbar";
 
 export default function Layout({ children }: { children: ReactElement }) {
   return (
-    <div className="w-full h-full">
+    <div className="h-screen w-full flex flex-col">
       <Navbar />
-      <main className="bg-gray-100 flex flex-col px-2">{children}</main>
-      {/* <Footer /> */}
-      <footer className="py-2 bg-green-500">
-        <p className="text-center my-auto text-xs">Alrights Reserved 2022</p>
-      </footer>
+      <main className="flex-1 bg-gray-50 md:p-10 p-5 grid grid-cols-3 gap-10">
+        {children}
+      </main>
     </div>
   );
 }

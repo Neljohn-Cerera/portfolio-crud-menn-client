@@ -29,10 +29,10 @@ const Users = ({
   dataInput,
 }: Props) => {
   return (
-    <div className="w-full py-5 flex flex-col lg:flex-row lg:space-x-5 lg:px-2">
+    <>
       <div className="flex-1 flex flex-col">
-        <div className="flex pb-5">
-          <h2 className="flex-1 text-xl font-medium text-green-800 lg:text-2xl">
+        <div className="flex justify-center items-center mb-5">
+          <h2 className="flex-1 text-xl font-bold tracking-widest text-gray-500 lg:text-2xl">
             Users
           </h2>
           <UserAdd
@@ -44,12 +44,12 @@ const Users = ({
           />
           <button
             className={classnames(
-              "flex justify-center items-center py-2 w-14 bg-green-900 hover:bg-blue-900 text-white",
+              "flex justify-center items-center py-2 w-12 bg-violet-900 hover:bg-violet-900 text-white",
               "text-white font-medium text-xs leading-tight uppercase rounded",
               "shadow-md hover:shadow-lg",
-              "focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800",
+              "focus:bg-violet-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-800",
               "active:shadow-lg transition duration-150 ease-in-out",
-              "lg:w-[180px] lg:py-4"
+              "md:w-[180px] md:py-2"
             )}
             onClick={() => setIsOpen(true)}
           >
@@ -59,7 +59,7 @@ const Users = ({
             </p>
           </button>
         </div>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-4">
           {isLoading ? (
             <>
               <p>Loading...</p>
@@ -73,9 +73,7 @@ const Users = ({
           )}
         </div>
       </div>
-
-      <TechStack />
-    </div>
+    </>
   );
 };
 

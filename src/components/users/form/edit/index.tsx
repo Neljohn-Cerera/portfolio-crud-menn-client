@@ -6,18 +6,18 @@ type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   isOpen: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmitRegistration: (e: React.FormEvent) => Promise<void>;
+  handleSubmitUpdate: (e: React.FormEvent) => Promise<void>;
   dataInput: {
     fullName: string;
     mobileNumber: string;
   };
 };
 
-const UserAdd = ({
+const UserUpdate = ({
   isOpen,
   setIsOpen,
   handleChange,
-  handleSubmitRegistration,
+  handleSubmitUpdate,
   dataInput,
 }: Props) => {
   return (
@@ -61,12 +61,12 @@ const UserAdd = ({
                 as="h2"
                 className="text-gray-900 text-xl md:text-2xl font-semibold text-center mb-4"
               >
-                Register User
+                Update User
               </Dialog.Title>
               {/* <Dialog.Description>
                 This will permanently deactivate your account
               </Dialog.Description> */}
-              <form onSubmit={handleSubmitRegistration}>
+              <form onSubmit={handleSubmitUpdate}>
                 <label className="block">
                   <span className="text-gray-700 md:text-xl">Fullname</span>
                   <input
@@ -114,4 +114,4 @@ const UserAdd = ({
   );
 };
 
-export default UserAdd;
+export default UserUpdate;
