@@ -7,9 +7,10 @@ import { User } from "../../../api/types";
 
 type Props = {
   user: User;
+  handleOpenUpdate: (user: User) => void;
 };
 
-const User = ({ user }: Props) => {
+const User = ({ user, handleOpenUpdate }: Props) => {
   return (
     <div
       className="bg-white flex items-center p-2 lg:py-4 lg:px-2
@@ -28,9 +29,7 @@ const User = ({ user }: Props) => {
         <p className="text-sm tracking-wider md:text-base text-gray-500 font-medium uppercase">
           {user.fullName}
         </p>
-        <p className="text-sm text-gray-500 font-normal">
-          {user.account.mobileNumber}
-        </p>
+        <p className="text-sm text-gray-500 font-normal">{user.mobileNumber}</p>
       </div>
       <div className="w-20 h-8 flex items-center space-x-2">
         <button
@@ -52,6 +51,7 @@ const User = ({ user }: Props) => {
             "focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800",
             "active:shadow-lg transition duration-150 ease-in-out"
           )}
+          onClick={() => handleOpenUpdate(user)}
         >
           <IconEdit size="h-4 w-4 mx-auto" />
         </button>

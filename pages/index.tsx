@@ -12,6 +12,8 @@ import {
 import { getUsers } from "../src/api/get";
 import { postUser } from "../src/api/post";
 import TechStack from "../src/components/techstack";
+import { putUser } from "../src/api/put";
+import { User } from "../src/api/types";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -27,6 +29,8 @@ export async function getStaticProps() {
 const Home: NextPage = () => {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [isOpenUpdate, setIsOpenUpdate] = useState(false);
   const [dataInput, setDataInput] = useState({
     fullName: "",
     mobileNumber: "",
@@ -39,6 +43,11 @@ const Home: NextPage = () => {
     isLoading: registerLoading,
     isError: registerError,
   } = useMutation(postUser);
+  const {
+    mutateAsync: asyncUpdateUser,
+    isLoading: updateLoading,
+    isError: updateError,
+  } = useMutation(putUser);
 
   /**
    * Employee Registration
@@ -73,6 +82,47 @@ const Home: NextPage = () => {
       }
     );
   };
+  /**
+   * Employee Update
+   */
+  const handleSubmitUpdate = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    await asyncUpdateUser(
+      { _id: userId, userinput: dataInput },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["users"]);
+          setDataInput({
+            fullName: "",
+            mobileNumber: "",
+          });
+          /** closing alert after 5 seconds */
+          setTimeout(() => {
+            setIsOpen(false);
+          }, 8000);
+        },
+        onError: (err: any, newTodo, context) => {
+          /** closing alert after 5 seconds */
+          setTimeout(() => {
+            setIsOpen(false);
+          }, 8000);
+        },
+      }
+    );
+  };
+  // Open update modal
+  const handleOpenUpdate = (user: User) => {
+    setIsOpenUpdate(true);
+    setUserId(user._id as string);
+    setDataInput({
+      fullName: user.fullName,
+      mobileNumber: user.mobileNumber,
+    });
+  };
+  // close update modal
+  const handleCloseUpdate = () => {
+    setIsOpenUpdate(false);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataInput({ ...dataInput, [e.target.name]: e.target.value });
   };
@@ -94,7 +144,11 @@ const Home: NextPage = () => {
           setIsOpen={setIsOpen}
           handleChange={handleChange}
           handleSubmitRegistration={handleSubmitRegistration}
+          handleSubmitUpdate={handleSubmitUpdate}
           dataInput={dataInput}
+          handleOpenUpdate={handleOpenUpdate}
+          handleCloseUpdate={handleCloseUpdate}
+          isOpenUpdate={isOpenUpdate}
         />
       </div>
       <div className="md:col-span-1 col-span-3 h-full w-full bg-white rounded shalow-lg flex- flex-col md:p-10 p-5">

@@ -5,6 +5,7 @@ import User from "./user";
 import TechStack from "../techstack";
 import { MUser, User as Usertypes } from "../../api/types";
 import UserAdd from "./form/add";
+import UserUpdate from "./form/edit";
 
 type Props = {
   data: MUser | undefined;
@@ -13,10 +14,14 @@ type Props = {
   isOpen: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmitRegistration: (e: React.FormEvent) => Promise<void>;
+  handleSubmitUpdate: (e: React.FormEvent) => Promise<void>;
   dataInput: {
     fullName: string;
     mobileNumber: string;
   };
+  isOpenUpdate: boolean;
+  handleOpenUpdate: (user: Usertypes) => void;
+  handleCloseUpdate: () => void;
 };
 
 const Users = ({
@@ -26,7 +31,11 @@ const Users = ({
   setIsOpen,
   handleChange,
   handleSubmitRegistration,
+  handleSubmitUpdate,
   dataInput,
+  isOpenUpdate,
+  handleOpenUpdate,
+  handleCloseUpdate,
 }: Props) => {
   return (
     <>
@@ -41,6 +50,13 @@ const Users = ({
             handleChange={handleChange}
             handleSubmitRegistration={handleSubmitRegistration}
             dataInput={dataInput}
+          />
+          <UserUpdate
+            isOpenUpdate={isOpenUpdate}
+            handleChange={handleChange}
+            handleCloseUpdate={handleCloseUpdate}
+            dataInput={dataInput}
+            handleSubmitUpdate={handleSubmitUpdate}
           />
           <button
             className={classnames(
@@ -67,7 +83,7 @@ const Users = ({
           ) : (
             data?.data.map((user) => (
               <React.Fragment key={user._id}>
-                <User user={user} />
+                <User user={user} handleOpenUpdate={handleOpenUpdate} />
               </React.Fragment>
             ))
           )}

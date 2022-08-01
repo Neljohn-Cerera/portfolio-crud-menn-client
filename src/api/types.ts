@@ -10,18 +10,8 @@ export type MUser = {
 };
 export type User = {
   _id: string;
-  gender: string;
   fullName: string;
-  address: string;
-  birthDate: string;
-  age: number;
-  account: {
-    _id: string;
-    accessLevel: string;
-    email: string;
-    mobileNumber: string;
-    isActive: boolean;
-  };
+  mobileNumber: string;
 };
 export type IRUser = {
   fullName: string;

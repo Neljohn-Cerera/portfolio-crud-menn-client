@@ -3,28 +3,28 @@ import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 type Props = {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  isOpen: boolean;
+  isOpenUpdate: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmitUpdate: (e: React.FormEvent) => Promise<void>;
   dataInput: {
     fullName: string;
     mobileNumber: string;
   };
+  handleCloseUpdate: () => void;
 };
 
 const UserUpdate = ({
-  isOpen,
-  setIsOpen,
+  isOpenUpdate,
   handleChange,
   handleSubmitUpdate,
   dataInput,
+  handleCloseUpdate
 }: Props) => {
   return (
-    <Transition show={isOpen} as={Fragment}>
+    <Transition show={isOpenUpdate} as={Fragment}>
       <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
+        open={isOpenUpdate}
+        onClose={handleCloseUpdate}
         className="relative z-50"
       >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
@@ -100,7 +100,7 @@ const UserUpdate = ({
                   <button
                     type="button"
                     className="flex-1 bg-red-500 text-white py-2 md:py-3 text-center rounded-md"
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleCloseUpdate}
                   >
                     Cancel
                   </button>
