@@ -8,9 +8,10 @@ import { User } from "../../../api/types";
 type Props = {
   user: User;
   handleOpenUpdate: (user: User) => void;
+  handleOpenDelete: (user: User) => void;
 };
 
-const User = ({ user, handleOpenUpdate }: Props) => {
+const User = ({ user, handleOpenUpdate, handleOpenDelete }: Props) => {
   return (
     <div
       className="bg-white flex items-center p-2 lg:py-4 lg:px-2
@@ -40,6 +41,7 @@ const User = ({ user, handleOpenUpdate }: Props) => {
             "focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800",
             "active:shadow-lg transition duration-150 ease-in-out"
           )}
+          onClick={() => handleOpenDelete(user)}
         >
           <IconView size="h-4 w-4 mx-auto" />
         </button>

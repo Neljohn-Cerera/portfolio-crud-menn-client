@@ -6,6 +6,7 @@ import TechStack from "../techstack";
 import { MUser, User as Usertypes } from "../../api/types";
 import UserAdd from "./form/add";
 import UserUpdate from "./form/edit";
+import UserDelete from "./form/delete";
 
 type Props = {
   data: MUser | undefined;
@@ -15,13 +16,17 @@ type Props = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmitRegistration: (e: React.FormEvent) => Promise<void>;
   handleSubmitUpdate: (e: React.FormEvent) => Promise<void>;
+  handleSubmitDelete: (e: React.FormEvent) => Promise<void>;
   dataInput: {
     fullName: string;
     mobileNumber: string;
   };
   isOpenUpdate: boolean;
+  isOpenDelete: boolean;
+  handleOpenDelete: (user: Usertypes) => void;
   handleOpenUpdate: (user: Usertypes) => void;
   handleCloseUpdate: () => void;
+  handleCloseDelete: () => void;
 };
 
 const Users = ({
@@ -32,10 +37,14 @@ const Users = ({
   handleChange,
   handleSubmitRegistration,
   handleSubmitUpdate,
+  handleSubmitDelete,
   dataInput,
   isOpenUpdate,
+  isOpenDelete,
   handleOpenUpdate,
   handleCloseUpdate,
+  handleOpenDelete,
+  handleCloseDelete,
 }: Props) => {
   return (
     <>
@@ -57,6 +66,11 @@ const Users = ({
             handleCloseUpdate={handleCloseUpdate}
             dataInput={dataInput}
             handleSubmitUpdate={handleSubmitUpdate}
+          />
+          <UserDelete
+            isOpenDelete={isOpenDelete}
+            handleCloseDelete={handleCloseDelete}
+            handleSubmitDelete={handleSubmitDelete}
           />
           <button
             className={classnames(
@@ -83,7 +97,11 @@ const Users = ({
           ) : (
             data?.data.map((user) => (
               <React.Fragment key={user._id}>
-                <User user={user} handleOpenUpdate={handleOpenUpdate} />
+                <User
+                  user={user}
+                  handleOpenUpdate={handleOpenUpdate}
+                  handleOpenDelete={handleOpenDelete}
+                />
               </React.Fragment>
             ))
           )}

@@ -14,6 +14,7 @@ import { postUser } from "../src/api/post";
 import TechStack from "../src/components/techstack";
 import { putUser } from "../src/api/put";
 import { User } from "../src/api/types";
+import { deleteUser } from "../src/api/delete";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -30,7 +31,9 @@ const Home: NextPage = () => {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState("");
+  const [userDeleteId, setUserDeleteId] = useState("");
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [dataInput, setDataInput] = useState({
     fullName: "",
     mobileNumber: "",
@@ -48,6 +51,11 @@ const Home: NextPage = () => {
     isLoading: updateLoading,
     isError: updateError,
   } = useMutation(putUser);
+  const {
+    mutateAsync: asyncDeleteUser,
+    isLoading: deleteLoading,
+    isError: deleteError,
+  } = useMutation(deleteUser);
 
   /**
    * Employee Registration
@@ -110,6 +118,22 @@ const Home: NextPage = () => {
       }
     );
   };
+  /**
+   * Employee Delete
+   */
+  const handleSubmitDelete = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    await asyncDeleteUser(userDeleteId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["users"]);
+        setIsOpenDelete(false);
+      },
+      onError: (err: any, newTodo, context) => {
+        setIsOpenDelete(false);
+        /** closing alert after 5 seconds */
+      },
+    });
+  };
   // Open update modal
   const handleOpenUpdate = (user: User) => {
     setIsOpenUpdate(true);
@@ -119,9 +143,18 @@ const Home: NextPage = () => {
       mobileNumber: user.mobileNumber,
     });
   };
+  // Open delete modal
+  const handleOpenDelete = (user: User) => {
+    setIsOpenDelete(true);
+    setUserDeleteId(user._id as string);
+  };
   // close update modal
   const handleCloseUpdate = () => {
     setIsOpenUpdate(false);
+  };
+  // close update modal
+  const handleCloseDelete = () => {
+    setIsOpenDelete(false);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDataInput({ ...dataInput, [e.target.name]: e.target.value });
@@ -145,10 +178,14 @@ const Home: NextPage = () => {
           handleChange={handleChange}
           handleSubmitRegistration={handleSubmitRegistration}
           handleSubmitUpdate={handleSubmitUpdate}
+          handleSubmitDelete={handleSubmitDelete}
           dataInput={dataInput}
+          handleOpenDelete={handleOpenDelete}
           handleOpenUpdate={handleOpenUpdate}
           handleCloseUpdate={handleCloseUpdate}
+          handleCloseDelete={handleCloseDelete}
           isOpenUpdate={isOpenUpdate}
+          isOpenDelete={isOpenDelete}
         />
       </div>
       <div className="md:col-span-1 col-span-3 h-full w-full bg-white rounded shalow-lg flex- flex-col md:p-10 p-5">
