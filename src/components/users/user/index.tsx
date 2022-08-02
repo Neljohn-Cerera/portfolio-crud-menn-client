@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import pic from "../../../asset/pic.jpg";
 import classnames from "classnames";
-import { IconEdit, IconView } from "../icons";
+import { IconDelete, IconEdit } from "../icons";
 import { User } from "../../../api/types";
 
 type Props = {
@@ -35,15 +35,15 @@ const User = ({ user, handleOpenUpdate, handleOpenDelete }: Props) => {
       <div className="w-20 h-8 flex items-center space-x-2">
         <button
           className={classnames(
-            "w-16 h-7 bg-gray-500 hover:bg-gray-900 text-white",
+            "w-16 h-7 bg-red-500 hover:bg-red-900",
             "text-white leading-tight rounded",
             "shadow-md hover:shadow-lg",
-            "focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800",
+            "focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800",
             "active:shadow-lg transition duration-150 ease-in-out"
           )}
           onClick={() => handleOpenDelete(user)}
         >
-          <IconView size="h-4 w-4 mx-auto" />
+          <IconDelete size="h-4 w-4 mx-auto" />
         </button>
         <button
           className={classnames(
