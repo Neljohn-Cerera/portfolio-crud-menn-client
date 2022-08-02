@@ -27,6 +27,13 @@ type Props = {
   handleOpenUpdate: (user: Usertypes) => void;
   handleCloseUpdate: () => void;
   handleCloseDelete: () => void;
+  registerLoading: boolean;
+  registerError: boolean;
+  registerNotification: boolean;
+  updateLoading: boolean;
+  updateError: boolean;
+  updateNotification: boolean;
+  deleteLoading: boolean;
 };
 
 const Users = ({
@@ -45,6 +52,13 @@ const Users = ({
   handleCloseUpdate,
   handleOpenDelete,
   handleCloseDelete,
+  registerLoading,
+  registerError,
+  registerNotification,
+  updateLoading,
+  updateError,
+  updateNotification,
+  deleteLoading,
 }: Props) => {
   return (
     <>
@@ -59,6 +73,9 @@ const Users = ({
             handleChange={handleChange}
             handleSubmitRegistration={handleSubmitRegistration}
             dataInput={dataInput}
+            registerLoading={registerLoading}
+            registerError={registerError}
+            registerNotification={registerNotification}
           />
           <UserUpdate
             isOpenUpdate={isOpenUpdate}
@@ -66,11 +83,15 @@ const Users = ({
             handleCloseUpdate={handleCloseUpdate}
             dataInput={dataInput}
             handleSubmitUpdate={handleSubmitUpdate}
+            updateLoading={updateLoading}
+            updateError={updateError}
+            updateNotification={updateNotification}
           />
           <UserDelete
             isOpenDelete={isOpenDelete}
             handleCloseDelete={handleCloseDelete}
             handleSubmitDelete={handleSubmitDelete}
+            deleteLoading={deleteLoading}
           />
           <button
             className={classnames(

@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import classnames from "classnames";
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -11,6 +12,9 @@ type Props = {
     fullName: string;
     mobileNumber: string;
   };
+  registerLoading: boolean;
+  registerError: boolean;
+  registerNotification: boolean;
 };
 
 const UserAdd = ({
@@ -19,6 +23,9 @@ const UserAdd = ({
   handleChange,
   handleSubmitRegistration,
   dataInput,
+  registerLoading,
+  registerError,
+  registerNotification,
 }: Props) => {
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -89,18 +96,39 @@ const UserAdd = ({
                     value={dataInput.mobileNumber}
                   />
                 </label>
+                {/* notification */}
+                {registerNotification && (
+                  <div
+                    className={classnames("w-full p-2  mt-8 rounded", {
+                      "bg-red-200": registerError === true,
+                      "bg-green-200": registerError === false,
+                    })}
+                  >
+                    {registerError
+                      ? "Something went wrong"
+                      : "Created Successfully"}
+                  </div>
+                )}
 
                 <div className="mt-8 flex space-x-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-500 text-white py-2 md:py-3 text-center rounded-md"
+                    className="flex-1 bg-blue-500 hover:bg-blue-900 text-white py-2 md:py-3 text-center rounded-md"
+                    disabled={registerLoading ? true : false}
                   >
-                    Submit
+                    {registerLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mx-auto"></div>
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                   <button
                     type="button"
-                    className="flex-1 bg-red-500 text-white py-2 md:py-3 text-center rounded-md"
+                    className="flex-1 bg-red-500 hover:bg-red-900 text-white py-2 md:py-3 text-center rounded-md"
                     onClick={() => setIsOpen(false)}
+                    disabled={registerLoading ? true : false}
                   >
                     Cancel
                   </button>

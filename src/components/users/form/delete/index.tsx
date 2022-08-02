@@ -1,17 +1,19 @@
 /* This example requires Tailwind CSS v2.0+ */
-import {  Fragment } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 type Props = {
   isOpenDelete: boolean;
   handleSubmitDelete: (e: React.FormEvent) => Promise<void>;
   handleCloseDelete: () => void;
+  deleteLoading: boolean;
 };
 
 const UserDelete = ({
   isOpenDelete,
   handleSubmitDelete,
   handleCloseDelete,
+  deleteLoading,
 }: Props) => {
   return (
     <Transition show={isOpenDelete} as={Fragment}>
@@ -63,15 +65,23 @@ const UserDelete = ({
               <div className="mt-8 flex space-x-4">
                 <button
                   type="button"
-                  className="flex-1 bg-blue-500 text-white py-2 md:py-3 text-center rounded-md"
+                  className="flex-1 bg-blue-500 hover:bg-blue-900 text-white py-2 md:py-3 text-center rounded-md"
                   onClick={handleSubmitDelete}
+                  disabled={deleteLoading ? true : false}
                 >
-                  Ok
+                  {deleteLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mx-auto"></div>
+                    </>
+                  ) : (
+                    "Ok"
+                  )}
                 </button>
                 <button
                   type="button"
-                  className="flex-1 bg-red-500 text-white py-2 md:py-3 text-center rounded-md"
+                  className="flex-1 bg-red-500 hover:bg-red-900 text-white py-2 md:py-3 text-center rounded-md"
                   onClick={handleCloseDelete}
+                  disabled={deleteLoading ? true : false}
                 >
                   Cancel
                 </button>

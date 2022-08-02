@@ -30,6 +30,8 @@ export async function getStaticProps() {
 const Home: NextPage = () => {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
+  const [registerNotification, setRegisterNotification] = useState(false);
+  const [updateNotification, setUpdateNotification] = useState(false);
   const [userId, setUserId] = useState("");
   const [userDeleteId, setUserDeleteId] = useState("");
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
@@ -76,15 +78,18 @@ const Home: NextPage = () => {
             fullName: "",
             mobileNumber: "",
           });
-          /** closing alert after 5 seconds */
+
+          /** closing alert after 4 seconds */
+          setRegisterNotification(true);
           setTimeout(() => {
-            setIsOpen(false);
+            setRegisterNotification(false);
           }, 8000);
         },
         onError: (err: any, newTodo, context) => {
-          /** closing alert after 5 seconds */
+          /** closing alert after 4 seconds */
+          setRegisterNotification(true);
           setTimeout(() => {
-            setIsOpen(false);
+            setRegisterNotification(false);
           }, 8000);
         },
       }
@@ -104,15 +109,17 @@ const Home: NextPage = () => {
             fullName: "",
             mobileNumber: "",
           });
-          /** closing alert after 5 seconds */
+          /** closing alert after 8 seconds */
+          setUpdateNotification(true);
           setTimeout(() => {
-            setIsOpen(false);
+            setUpdateNotification(false);
           }, 8000);
         },
         onError: (err: any, newTodo, context) => {
-          /** closing alert after 5 seconds */
+          /** closing alert after 8 seconds */
+          setUpdateNotification(true);
           setTimeout(() => {
-            setIsOpen(false);
+            setUpdateNotification(false);
           }, 8000);
         },
       }
@@ -186,6 +193,13 @@ const Home: NextPage = () => {
           handleCloseDelete={handleCloseDelete}
           isOpenUpdate={isOpenUpdate}
           isOpenDelete={isOpenDelete}
+          registerLoading={registerLoading}
+          registerError={registerError}
+          registerNotification={registerNotification}
+          updateLoading={updateLoading}
+          updateError={updateError}
+          updateNotification={updateNotification}
+          deleteLoading={deleteLoading}
         />
       </div>
       <div className="md:col-span-1 col-span-3 h-full w-full bg-white rounded shalow-lg flex- flex-col md:p-10 p-5">

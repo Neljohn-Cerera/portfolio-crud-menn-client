@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import classnames from "classnames";
 
 type Props = {
   isOpenUpdate: boolean;
@@ -11,6 +12,9 @@ type Props = {
     mobileNumber: string;
   };
   handleCloseUpdate: () => void;
+  updateLoading: boolean;
+  updateError: boolean;
+  updateNotification: boolean;
 };
 
 const UserUpdate = ({
@@ -18,7 +22,10 @@ const UserUpdate = ({
   handleChange,
   handleSubmitUpdate,
   dataInput,
-  handleCloseUpdate
+  handleCloseUpdate,
+  updateLoading,
+  updateError,
+  updateNotification,
 }: Props) => {
   return (
     <Transition show={isOpenUpdate} as={Fragment}>
@@ -89,18 +96,38 @@ const UserUpdate = ({
                     value={dataInput.mobileNumber}
                   />
                 </label>
-
+                {/* notification */}
+                {updateNotification && (
+                  <div
+                    className={classnames("w-full p-2  mt-8 rounded", {
+                      "bg-red-200": updateError === true,
+                      "bg-green-200": updateError === false,
+                    })}
+                  >
+                    {updateError
+                      ? "Something went wrong"
+                      : "Updated Successfully"}
+                  </div>
+                )}
                 <div className="mt-8 flex space-x-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-500 text-white py-2 md:py-3 text-center rounded-md"
+                    className="flex-1 bg-blue-500 hover:bg-blue-900 text-white py-2 md:py-3 text-center rounded-md"
+                    disabled={updateLoading ? true : false}
                   >
-                    Submit
+                    {updateLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mx-auto"></div>
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                   <button
                     type="button"
-                    className="flex-1 bg-red-500 text-white py-2 md:py-3 text-center rounded-md"
+                    className="flex-1 bg-red-500 hover:bg-red-900 text-white py-2 md:py-3 text-center rounded-md"
                     onClick={handleCloseUpdate}
+                    disabled={updateLoading ? true : false}
                   >
                     Cancel
                   </button>
